@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}My Tickets{% endblock %}
+
+{% block content %}
+    <div class="container-fluid my-tickets-window">
+            <!-- Only show this button if admin. -->
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Your Tickets</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Not exactly sure what would go here.</h6>
+                    <p class="card-text">Some quick example text.</p>
+                    <!-- Search bar/functionality here. -->
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <th scope="col">Project</th>
+                                <th scope="col">Ticket Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Priority</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Date Created</th>
+                                <th scope="col">Actions</th>
+                            </thead>
+                            <tbody>
+                            {% for ticket in tickets %}
+                                <tr>
+                                    <td class="align-middle">{{ ticket.project.name }}</td>
+                                    <td class="align-middle">{{ ticket.name }}</td>
+                                    <td class="align-middle">{{ ticket.description }}</td>
+                                    <td class="align-middle">{{ ticket.priority }}</td>
+                                    <td class="align-middle">{{ ticket.type }}</td>
+                                    <td class="align-middle">{{ ticket.status }}</td>
+                                    <td class="align-middle">{{ ticket.date_created }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

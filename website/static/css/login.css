@@ -1,0 +1,54 @@
+
+body {
+    background-image: url('/static/images/spacey-bkgd-unsplash.jpg');
+}
+
+#wrapper {
+    margin-top: 15rem;
+}
+
+
+/* Pixel Art
+.pokeball {
+    width: 12rem;
+    height: 12rem;
+    top: 5%;
+    left: 20%;
+    transform: translate(0%, 0%);
+    position: absolute;
+}
+
+.pixel {
+    width: 1rem;
+    height: 1rem;
+    box-shadow:
+    //row 1//
+    0rem 0rem 0 -0.05rem #fff,
+    1rem 0rem 0 -0.05rem #fff,
+    2rem 0rem 0 -0.05rem #fff,
+    3rem 0rem 0 -0.05rem #fff,
+    4rem 0rem 0 -0.05rem #222,
+    5rem 0rem 0 -0.05rem #222,
+    6rem 0rem 0 -0.05rem #222,
+    7rem 0rem 0 -0.05rem #222,
+    8rem 0rem 0 -0.05rem #fff,
+    9rem 0rem 0 -0.05rem #fff,
+    10rem 0rem 0 -0.05rem #fff,
+    11rem 0rem 0 -0.05rem #fff,
+
+    //row 2//
+    0rem 1rem 0 -0.05rem #fff,
+    1rem 1rem 0 -0.05rem #fff,
+    2rem 1rem 0 -0.05rem #222,
+    3rem 1rem 0 -0.05rem #222,
+    4rem 1rem 0 -0.05rem #f00,
+    5rem 1rem 0 -0.05rem #f00,
+    6rem 1rem 0 -0.05rem #f00,
+    7rem 1rem 0 -0.05rem #f00,
+    8rem 1rem 0 -0.05rem #222,
+    9rem 1rem 0 -0.05rem #222,
+    10rem 1rem 0 -0.05rem #fff,
+    11rem 1rem 0 -0.05rem #fff,
+
+}
+*/

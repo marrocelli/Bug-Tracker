@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}My Projects{% endblock %}
+
+{% block content %}
+    <div class="container-fluid my-projects-window">
+        <!-- Only show this button if admin. -->
+        <a style="margin-left: 12px;" class="btn btn-primary" href="{{ url_for('views.create_project') }}">Create new project</a>
+        <div class="card shadow">
+            <div class="card-body">
+                <h5 class="card-title">Your Projects</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Not exactly sure what would go here.</h6>
+                <p class="card-text">Some quick example text.</p>
+                <!-- Search bar/functionality here. -->
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <th scope="col">Project Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">More Options</th>
+                            </thead>
+                        <tbody>
+                        {% if projects %}
+                            {% for project in projects %}
+                                <tr>
+                                    <td class="align-middle">{{ project.name }}</td>
+                                    <td class="align-middle">{{ project.description }}</td>
+                                    <td class="align-middle">
+                                        <a class="btn btn-primary" href="{{ url_for('views.project_details', project_id=project.id) }}">Details</a>
+                                        <a class="btn btn-danger" href="{{ url_for('views.project_details', project_id=project.id) }}">Delete</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

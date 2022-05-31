@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}New Ticket{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Create New Ticket</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Not exactly sure what would go here.</h6>
+            <p class="card-text">Some quick example text.</p>
+            <form method="POST" class="form-create-project">
+                {{ form.hidden_tag() }}
+                <div class="form-floating mb-3">
+                    {{ form.name(class="form-control", id="floatingTicketName", placeholder="Ticket Name") }}
+                    {{ form.name.label(for="floatingTicketName") }}
+                </div>
+                <div class="form-floating mb-3">
+                    {{ form.description(class="form-control", id="floatingTicketDescription", placeholder="Ticket Description") }}
+                    {{ form.description.label(for="floatingTicketDescription") }}
+                </div>
+                <div class="form-floating mb-3">
+                    {{ form.priority(class="form-control", id="floatingTicketPriority", placeholder="Ticket Priority") }}
+                    {{ form.priority.label(for="floatingTicketPriority") }}
+                </div>
+                <div class="form-floating mb-3">
+                    {{ form.type(class="form-control", id="floatingTicketType", placeholder="Ticket Type") }}
+                    {{ form.type.label(for="floatingTicketType") }}
+                </div>
+                <div class="form-floating mb-3">
+                    {{ form.status(class="form-control", id="floatingTicketStatus", placeholder="Ticket Status") }}
+                    {{ form.status.label(for="floatingTicketStatus") }}
+                </div>
+                <div class="form-floating mb-3">
+                    {{ form.assigned_dev(class="form-control", id="floatingAssignedDev", placeholder="Assigned Developer") }}
+                    {{ form.assigned_dev.label(for="floatingAssignedDev") }}
+                </div>
+                <div class="d-grid gap-2">
+                  {{ form.submit(class="btn btn-primary") }}
+                </div>
+            </form>
+          </div>
+        </div>
+    </div>
+{% endblock %}

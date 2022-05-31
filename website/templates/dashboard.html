@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="card dashboard-tile">
+          <a class="card-link" href="#">
+            <img src="{{ url_for('static', filename='/images/test_card_img.jpg') }}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <p class="card-text">Tickets By Priority</p>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="card dashboard-tile">
+          <a class="card-link" href="{{ url_for('views.my_projects') }}">
+            <img src="{{ url_for('static', filename='/images/test_card_img.jpg') }}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <p class="card-text">My Projects</p>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="card dashboard-tile">
+          <a class="card-link" href="#">
+            <img src="{{ url_for('static', filename='/images/test_card_img.jpg') }}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <p class="card-text">All Tickets</p>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="card dashboard-tile">
+          <a class="card-link" href="#">
+            <img src="{{ url_for('static', filename='/images/test_card_img.jpg') }}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <p class="card-text">Metrics</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Create New Project{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Create New Project</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Not exactly sure what would go here.</h6>
+                <p class="card-text">Some quick example text.</p>
+                <form method="POST" class="form-create-project">
+                    {{ form.hidden_tag() }}
+                    <div class="form-floating mb-3">
+                        {{ form.name(class="form-control", id="floatingProjectName", placeholder="Project Name") }}
+                        {{ form.name.label(for="floatingProjectName") }}
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{ form.description(class="form-control", id="floatingProjectDescription", placeholder="Project Description") }}
+                        {{ form.description.label(for="floatingProjectDescription") }}
+                    </div>
+                    <div class="d-grid gap-2">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,45 @@
+
+
+<!-- Dashboard -->
+<div class="container-fluid h-100">
+    <div class="row h-100">
+        <div class="col-2 sidebar">
+            <h4>Sidebar</h4>
+            <!-- Sidebar Nav Links -->
+            <a class="side-nav-link" href="{{ url_for('views.dashboard') }}">Home</a><br>
+            <a class="side-nav-link" href="{{ url_for('views.my_projects') }}">My Projects</a><br>
+            <a class="side-nav-link" href="#">My Tickets</a><br>
+            <a class="side-nav-link" href="#">Profile</a><br>
+            <!-- If current_user.is_admin -->
+        </div>
+        <div class="col-10" style="padding: 0;">
+            <!-- Top Navbar -->
+            <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="{{ url_for('views.dashboard') }}">Logged in as: {{ current_user.first_name }} {{ current_user.last_name }}</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div id="navbar" class="collapse navbar-collapse justify-content-end">
+                        <div class="navbar-nav">
+                            {% if current_user.is_authenticated %}
+                            <form class="d-flex">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            </form>
+                            <a id="logout" class="nav-item nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+                            {% else %}
+                            <a id="signup" class="nav-item nav-link" href="{{ url_for('auth.sign_up') }}">Sign-up</a>
+                            <a id="login" class="nav-item nav-link" href="{{ url_for('auth.login') }}">Login</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <!-- Main Program Interface -->
+            <!-- This will be where all data is shown -->
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</div>

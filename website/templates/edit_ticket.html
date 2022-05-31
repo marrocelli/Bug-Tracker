@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Project Tickets{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Edit Ticket: {{ ticket.name }}</h5>
+                <a class="card-subtitle mb-2 text-muted" href="{{ url_for('views.edit_project_tickets', project_id=project.id) }}">
+                    <i class="fa-solid fa-arrow-left"></i>Back to {{ project.name }} tickets
+                </a>
+                <p class="card-text">Some quick example text.</p>
+                <form method="POST" class="form-edit-ticket">
+                    {{ form.hidden_tag() }}
+                    <div class="form-floating mb-3">
+                        {{ form.name(class="form-control", id="floatingTicketName", value=ticket.name, placeholder="Ticket Name") }}
+                        {{ form.name.label(for="floatingTicketName") }}
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{ form.description(class="form-control", id="floatingTicketDescription", value=ticket.description, placeholder="Ticket Description") }}
+                        {{ form.description.label(for="floatingTicketDescription") }}
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{ form.priority(class="form-control", id="floatingTicketPriority", value=ticket.priority, placeholder="Ticket Priority") }}
+                        {{ form.priority.label(for="floatingTicketPriority") }}
+                    </div>
+                    <div class="form-floating mb-3"> <!-- Type -->
+                        {{ form.type(class="form-control", id="floatingTicketType", placeholder="Ticket Type") }}
+                        {{ form.type.label(for="floatingTicketType") }}
+                    </div>
+                    <div class="form-floating mb-3"> <!-- Status -->
+                        {{ form.status(class="form-control", id="floatingTicketStatus", placeholder="Ticket Status") }}
+                        {{ form.status.label(for="floatingTicketStatus") }}
+                    </div>
+                    <div class="d-grid gap-2">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

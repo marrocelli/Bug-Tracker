@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Project Name{% endblock %}
+
+{% block content %}
+<div class="container-fluid projects-details-window">
+
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title">{{ project.name }}</h5>
+                    <a class="card-subtitle mb-2 text-muted" href="{{ url_for('views.my_projects') }}" style="border-right: 1px solid #d3d3d3; padding-right: 5px;">Back to projects</a>
+                    <a class="card-subtitle mb-2 text-muted" href="#">Edit</a>
+                    <p class="card-text">{{ project.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="project-team-module h-100">
+                <div class="card module shadow h-100">
+                    <div class="card-body scroll">
+                        <h5 class="card-title">{{ project.name }} Team</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Current users on this project.</h6>
+                        <!-- Search bar/functionality here. -->
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Role</th>
+                                    </thead>
+                                <tbody>
+                                <!-- Need to change this to only show user.projects or something. -->
+                                {% if project %}
+                                    {% for user in project.team %}
+                                        <tr>
+                                            <td class="align-middle">{{ user.first_name }} {{ user.last_name }}</td>
+                                            <td class="align-middle">{{ user.email }}</td>
+                                            <td class="align-middle">{{ user.role }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ url_for('views.edit_project_members', project_id=project.id) }}" class="btn btn-primary">Edit Members</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="project-tickets-module h-100">
+                <div class="card module shadow h-100">
+                    <div class="card-body scroll">
+                        <h5 class="card-title">{{ project.name }} Tickets</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Ticket details for {{ project.name }}</h6>
+                        <!-- Search bar/functionality here. -->
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Priority</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Date Created</th>
+                                    </thead>
+                                <tbody>
+                                <!-- Need to change this to only show user.projects or something. -->
+                                {% if project %}
+                                    {% for ticket in project.tickets %}
+                                        <tr>
+                                            <td class="align-middle">{{ ticket.name }}</td>
+                                            <td class="align-middle">{{ ticket.description }}</td>
+                                            <td class="align-middle">{{ ticket.priority }}</td>
+                                            <td class="align-middle">{{ ticket.type }}</td>
+                                            <td class="align-middle">{{ ticket.status }}</td>
+                                            <td class="align-middle">{{ ticket.date_created }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ url_for('views.edit_project_tickets', project_id=project.id) }}" class="btn btn-primary">Edit Tickets</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

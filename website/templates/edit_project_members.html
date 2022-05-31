@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Members{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Edit Users for {{ project.name }}</h5>
+            <a class="card-subtitle mb-2 text-muted" href="{{ url_for('views.project_details', project_id=project.id) }}">
+                <i class="fa-solid fa-arrow-left"></i>Back to {{ project.name }} details
+            </a>
+            <p class="card-text">Some quick example text.</p>
+            <!-- Search bar/functionality here. -->
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Actions</th>
+                        </thead>
+                    <tbody>
+                    {% if organization.team %}
+                        {% for user in organization.team %}
+                            <tr>
+                                <td class="align-middle">{{ user.first_name }} {{ user.last_name }}</td>
+                                <td class="align-middle">{{ user.email }}</td>
+                                <td class="align-middle">{{ user.role }}</td>
+                                <td class="align-middle">
+                                    <form method="POST">
+                                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                                        {% if user not in project.team %}
+                                        <button name="action" value="add" class="btn btn-primary">Add User</button>
+                                        {% else %}
+                                        <button name="action" value="remove" class="btn btn-danger">Remove User</button>
+                                        {% endif %}
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
+    </div>
+{% endblock %}

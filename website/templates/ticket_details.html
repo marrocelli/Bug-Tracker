@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Ticket Details{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="card shadow h-100">
+                <div class="card-body scroll">
+                    <h5 class="card-title">Details for {{ ticket.name }}</h5>
+                    <a class="card-subtitle mb-2 text-muted" href="{{ url_for('views.my_projects') }}" style="border-right: 1px solid #d3d3d3; padding-right: 5px;">Back to projects</a>
+                    <a class="card-subtitle mb-2 text-muted" href="#">Edit</a>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <th scope="col">Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Priority</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Date Created</th>
+                                <th scope="col">Actions</th>
+                                </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="align-middle">{{ ticket.name }}</td>
+                                    <td class="align-middle">{{ ticket.description }}</td>
+                                    <td class="align-middle">{{ ticket.priority }}</td>
+                                    <td class="align-middle">{{ ticket.type }}</td>
+                                    <td class="align-middle">{{ ticket.status }}</td>
+                                    <td class="align-middle">{{ ticket.date_created }}</td>
+                                    <td>
+                                        {% include "/includes/modals.html" %}
+                                        <form method="POST">
+                                            <input type="hidden" name="ticket_id" value="{{ ticket.id }}">
+                                            <button name="action" value="edit" class="btn btn-primary mb-1">Edit Ticket</button>
+                                            <button type="button" class="btn btn-danger mb-1" data-bs-toggle="modal"
+                                                    data-bs-target="#ConfirmTicketDeleteModal-{{ ticket.id }}">
+                                                Delete Ticket
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="card shadow h-100">
+                <div class="card-body scroll">
+                    <h5 class="card-title">Comments</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <th scope="col">Commenter</th>
+                                <th scope="col">Message</th>
+                                <th scope="col">Date Created</th>
+                            </thead>
+                            <tbody>
+                                {% if ticket.comments %}
+                                    {% for comment in ticket.comments %}
+                                        <tr>
+                                            <td class="align-middle">{{ comment.commenter }}</td>
+                                            <td class="align-middle">{{ comment.message }}</td>
+                                            <td class="align-middle">{{ comment.date_created }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+                                <form method="POST" class="form-new-comment">
+                                    {{ form.hidden_tag() }}
+                                    <div class="form-floating mb-3">
+                                        {{ form.message(class="form-control", id="floatingMessage", placeholder="Comment") }}
+                                        {{ form.message.label(for="floatingMessage") }}
+                                    </div>
+                                    <div class="d-grid gap-2">
+                                        {{ form.submit(class="btn btn-primary") }}
+                                    </div>
+                                </form>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="card shadow h-100">
+                <div class="card-body scroll">
+                    <h5 class="card-title">Ticket History</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <th scope="col">Property</th>
+                                <th scope="col">Old Value</th>
+                                <th scope="col">New Value</th>
+                                <th scope="col">Date Changed</th>
+                            </thead>
+                            <tbody>
+                                {% for ticket_edit in ticket_edits %}
+                                    <tr>
+                                        <td class="align-middle">{{ ticket_edit.property }}</td>
+                                        <td class="align-middle">{{ ticket_edit.old_value }}</td>
+                                        <td class="align-middle">{{ ticket_edit.new_value }}</td>
+                                        <td class="align-middle">{{ ticket_edit.date_changed }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="card shadow h-100">
+                <div class="card-body scroll">
+                    <h5 class="card-title">Add Attachments</h5>
+                    <p>Coming Soon...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
