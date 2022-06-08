@@ -1,10 +1,16 @@
 import flask_login
+import matplotlib.pyplot
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from flask_login import login_required, current_user
 from website.forms import CreateNewProjectForm, init_CreateNewTicketForm, EditProfileForm, NewCommentForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from .models import User, Organization, Project, Ticket, Comment, TicketEdit
+from matplotlib.figure import Figure
+import numpy as np
+import base64
+from io import BytesIO
+
 
 views = Blueprint("views", __name__)
 
@@ -12,7 +18,32 @@ views = Blueprint("views", __name__)
 @views.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template("dashboard.html")
+
+    user = User.query.get(current_user.id)
+    organization = Organization.query.get(user.organization_id)
+    low = []
+    medium = []
+    high = []
+    urgent = []
+
+    for project in organization.projects:
+        for ticket in project.tickets:
+            if ticket.priority == "Low":
+                low.append(ticket)
+            elif ticket.priority == "Medium":
+                medium.append(ticket)
+            elif ticket.priority == "High":
+                high.append(ticket)
+            elif ticket.priority == "Urgent":
+                urgent.append(ticket)
+
+    # low = len(Ticket.query.filter_by(priority="Low").all())
+    # medium = len(Ticket.query.filter_by(priority="Medium").all())
+    # high = len(Ticket.query.filter_by(priority="High").all())
+    # urgent = len(Ticket.query.filter_by(priority="Urgent").all())
+    priority_data = [len(low), len(medium), len(high), len(urgent)]
+
+    return render_template("dashboard.html", priority_data=priority_data)
 
 
 # Create routes
@@ -42,7 +73,6 @@ def create_project():
             organization.projects.append(new_project)
 
             db.session.commit()
-
             flash(f"{new_project.name} project created successfully", category="success")
 
         return redirect(url_for("views.my_projects"))
@@ -75,7 +105,6 @@ def create_ticket(project_id):
             new_ticket = Ticket(name=form.name.data, description=form.description.data, priority=form.priority.data, type=form.type.data, status=form.status.data, assigned_dev=form.assigned_dev.data, project=project, created_by=flask_login.current_user.id)
             db.session.add(new_ticket)
             db.session.commit()
-
             flash("Ticket created successfully.", category="success")
 
             return redirect(url_for("views.project_details", project_id=project_id))
@@ -88,11 +117,26 @@ def create_ticket(project_id):
 
 
 # Read routes
-@views.route('/my-projects')
+@views.route('/my-projects', methods=["GET", "POST"])
 @login_required
 def my_projects():
 
     projects = current_user.projects
+
+    # When user selects delete project.
+    if request.method == "POST":
+        project_id = request.form["project_id"]
+        project_to_delete = Project.query.get(int(project_id))
+        if project_to_delete:
+            db.session.delete(project_to_delete)
+            # Delete all tickets within project_to_delete.
+            for ticket in project_to_delete.tickets:
+                db.session.delete(ticket)
+            db.session.commit()
+            flash(f"{project_to_delete.name} deleted successfully.", category="success")
+            projects = current_user.projects
+
+            return redirect(url_for("views.my_projects", projects=projects))
 
     return render_template("my_projects.html", projects=projects)
 
@@ -106,7 +150,7 @@ def project_details(project_id):
     return render_template("project_details.html", project=project)
 
 
-@views.route('/my-tickets')
+@views.route('/my-tickets', methods=["GET", "POST"])
 @login_required
 def my_tickets():
 
@@ -118,6 +162,22 @@ def my_tickets():
         if user in project.team:
             for ticket in project.tickets:
                 tickets.append(ticket)
+
+    ####################################################################################################################
+    if request.method == "POST":
+        ticket_id = request.form["ticket_id"]
+        action = request.form["action"]
+        ticket_to_edit = Ticket.query.get(int(ticket_id))
+        if action == "edit":
+            return redirect(url_for("views.edit_ticket", project_id=ticket_to_edit.project_id, ticket_id=ticket_id))
+        elif action == "delete":
+            db.session.delete(ticket_to_edit)
+            db.session.commit()
+            flash(f"{ticket_to_edit.name} {action}d successfully.", category="success")
+            return redirect(url_for("views.my_tickets", organization=organization, tickets=tickets))
+        elif action == "details":
+            return redirect(url_for("views.ticket_details", project_id=ticket_to_edit.project.id, ticket_id=ticket_id))
+    ####################################################################################################################
 
     return render_template("my_tickets.html", organization=organization, tickets=tickets)
 
@@ -135,7 +195,6 @@ def my_profile():
         role = form.role.data
         current_password = form.password1.data
         new_password = form.password2.data
-        confirm_new_password = form.password3.data
 
         if check_password_hash(current_user.password, current_password):
             user = User.query.get(current_user.id)
@@ -146,8 +205,8 @@ def my_profile():
             user.password = generate_password_hash(new_password, method="sha256")
 
             db.session.commit()
-
             flash(f"Changes saved successfully", category="success")
+
             return redirect(url_for("views.my_profile"))
         else:
             flash("Incorrect password.", category="danger")
@@ -171,7 +230,6 @@ def ticket_details(project_id, ticket_id):
         print(new_comment)
         db.session.add(new_comment)
         db.session.commit()
-
         flash("Comment submitted successfully.", category="success")
 
         return redirect(url_for('views.ticket_details', ticket_id=ticket_id, project_id=project_id))
@@ -279,5 +337,6 @@ def edit_project_members(project_id):
             project.team.remove(user_to_edit)
             db.session.commit()
             flash(f"{user_to_edit.first_name} {user_to_edit.last_name} removed from {project.name}.", category="success")
+
 
     return render_template("edit_project_members.html", organization=organization, project=project)

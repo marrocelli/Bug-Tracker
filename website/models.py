@@ -1,5 +1,5 @@
 from . import db
-from flask_login import UserMixin, current_user
+from flask_login import UserMixin
 from sqlalchemy.sql import func
 from sqlalchemy.ext.hybrid import hybrid_property
 
@@ -9,7 +9,6 @@ user_project_assoc = db.Table('user_project_assoc',
                               db.Column('project_id', db.Integer(), db.ForeignKey('project.id')))
 
 
-# Have a company/org object?? I'm thinking this will be necessary to make this program useful to more than just me.
 class Organization(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(length=100), nullable=False, unique=True)
@@ -34,8 +33,6 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return self.full_name
-
-    # notifications every time they log in with what's new?
 
 
 class Project(db.Model):
@@ -91,16 +88,9 @@ class TicketEdit(db.Model):
     date_changed = db.Column(db.DateTime(timezone=True), default=func.now())
 
 
-    # id
-    # name
+
     # attachments
-    # description
     # tags
-    # Creator --> User object who created Issue (will this be whole User object or just name?) maybe should
-    #     be object that way anytime there is an update it will add notification to that user object.
-    # should have a priority
-    # should have comments
-    # date bug was created
     # date bug was started
     # date bug was fixed
     # due date should only be able to be changed by issue owner/admin

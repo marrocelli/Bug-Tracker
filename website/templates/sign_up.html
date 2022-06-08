@@ -50,10 +50,10 @@
                     <span>Forgot your <a href="#">Password</a>?</span>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <span>Already have an account? <a href="{{ url_for('auth.login') }}">Log-In</a>!</span>
+                    <span>Already have an account? <a href="{{ url_for('auth.login', demo_login=False) }}">Log-In</a>!</span>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <span>Sign-in as a <a href="#">Demo User</a>.</span>
+                    <span>Sign-in as a <a href="{{ url_for('auth.demo') }}">Demo User</a>.</span>
                 </div>
             </div>
         </div>

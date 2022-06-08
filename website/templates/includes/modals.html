@@ -1,5 +1,6 @@
 
 <!-- Confirm Ticket Deletion Modal -->
+{% if ticket %}
 <div class="modal fade" id="ConfirmTicketDeleteModal-{{ ticket.id }}" tabindex="-1" aria-labelledby="moreInfo" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -21,3 +22,29 @@
     </div>
   </div>
 </div>
+{% endif %}
+
+<!-- Confirm Project Deletion Modal -->
+{% if project %}
+<div class="modal fade" id="ConfirmProjectDeleteModal-{{ project.id }}" tabindex="-1" aria-labelledby="moreInfo" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="ConfirmProjectDeleteLabel">Confirm Deletion of "{{ project.name }}".</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h5>Are you sure you want to delete "{{ project.name }}"?</h5>
+        <p>This action is permanent. By clicking "Delete", you will delete this project and all of its tickets.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <form method="POST">
+          <input type="hidden" name="project_id" value="{{ project.id }}">
+          <button class="btn btn-danger" name="action" value="delete">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}

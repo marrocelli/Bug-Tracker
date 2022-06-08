@@ -3,9 +3,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
+
 db = SQLAlchemy()
 DB_NAME = "bug_tracker.db"
-FLASK_SECRET_KEY = os.environ["FLASK_SECRET_KEY"]
+# FLASK_SECRET_KEY = os.environ["FLASK_SECRET_KEY"]
+FLASK_SECRET_KEY = "secretstuff"
 
 
 def create_app():
@@ -37,7 +39,7 @@ def create_app():
 
 def create_database(app):
     if not os.path.exists("website/" + DB_NAME):
-        db.create_all(app=application)
+        db.create_all(app=app)
         print("Database created!")
 
 

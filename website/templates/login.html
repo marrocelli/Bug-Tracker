@@ -67,10 +67,10 @@
                                     <span>Forgot your <a href="#">Password</a>?</span>
                                 </div>
                                 <div class="d-flex justify-content-center">
-                                    <span>New User? <a href="{{ url_for('auth.sign_up') }}">Sign-Up</a>!</span>
+                                    <span>New User? <a href="{{ url_for('auth.sign_up', demo_login=False) }}">Sign-Up</a>!</span>
                                 </div>
                                 <div class="d-flex justify-content-center">
-                                    <span>Sign-in as a <a href="{{ url_for('auth.login') }}">Demo User</a>.</span>
+                                    <span>Sign-in as a <a href="{{ url_for('auth.demo') }}">Demo User</a>.</span>
                                 </div>
                             </div>
                         </div>

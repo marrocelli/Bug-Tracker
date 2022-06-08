@@ -8,9 +8,7 @@
             <div class="card shadow">
                 <div class="card-body">
                     <h5 class="card-title">Your Tickets</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Not exactly sure what would go here.</h6>
-                    <p class="card-text">Some quick example text.</p>
-                    <!-- Search bar/functionality here. -->
+                    <h6 class="card-subtitle mb-2 text-muted">Here you can view all tickets across all of your projects</h6>
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
@@ -25,14 +23,31 @@
                             </thead>
                             <tbody>
                             {% for ticket in tickets %}
+                            {% include "/includes/modals.html" %}
                                 <tr>
                                     <td class="align-middle">{{ ticket.project.name }}</td>
                                     <td class="align-middle">{{ ticket.name }}</td>
-                                    <td class="align-middle">{{ ticket.description }}</td>
+                                    <td class="align-middle">
+                                        {{ ticket.description[0:30] }}
+                                        {% if ticket.description[0:30] != ticket.description %}
+                                            ...
+                                        {% endif %}
+                                    </td>
                                     <td class="align-middle">{{ ticket.priority }}</td>
                                     <td class="align-middle">{{ ticket.type }}</td>
                                     <td class="align-middle">{{ ticket.status }}</td>
                                     <td class="align-middle">{{ ticket.date_created }}</td>
+                                    <td>
+                                        <form method="POST">
+                                            <input type="hidden" name="ticket_id" value="{{ ticket.id }}">
+                                            <button name="action" value="details" class="btn btn-info mb-1">More Details</button>
+                                            <button name="action" value="edit" class="btn btn-primary mb-1">Edit Ticket</button>
+                                            <button type="button" class="btn btn-danger mb-1" data-bs-toggle="modal"
+                                                    data-bs-target="#ConfirmTicketDeleteModal-{{ ticket.id }}">
+                                                Delete Ticket
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>

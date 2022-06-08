@@ -11,6 +11,7 @@ auth = Blueprint("auth", __name__)
 @auth.route('/login', methods=["GET", "POST"])
 def login():
     form = LoginForm()
+
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
@@ -39,7 +40,6 @@ def sign_up():
     form = SignUpForm()
 
     if form.validate_on_submit():
-
         organization = Organization.query.filter_by(name=form.organization.data).first()
         if not organization:
             organization = Organization(name=form.organization.data)
@@ -68,13 +68,8 @@ def sign_up():
 
 @auth.route('/demo')
 def demo():
-    # log in as a demo user.
-    # should probably make this so that it creates a new user with fresh interface and full access every time.
-    # Should also delete user and all data associated with demo user after this is done.
-
-    # User(email=form.email.data,
-    #      first_name=form.first_name.data,
-    #      last_name=form.last_name.data,
-    #      password=generate_password_hash(form.password1.data, method="sha256"))
-    pass
-
+    # Login as demo user if selected from login/sign-up page.
+    demo_user = User.query.filter_by(email="test@email.com").first()
+    login_user(demo_user, remember=True)
+    flash(f"Successfully logged in as {demo_user.email}", category="success")
+    return redirect(url_for("views.dashboard"))

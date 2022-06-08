@@ -8,37 +8,42 @@
       <div class="col-12 col-md-6">
         <div class="card dashboard-tile">
           <a class="card-link" href="#">
-            <img src="{{ url_for('static', filename='/images/test_card_img.jpg') }}" class="card-img-top" alt="...">
+            <div class="priority-chart-container" style="position: relative;">
+              <canvas id="priority-chart"></canvas>
+            </div>
             <div class="card-body">
               <p class="card-text">Tickets By Priority</p>
             </div>
           </a>
         </div>
       </div>
+
       <div class="col-12 col-md-6">
         <div class="card dashboard-tile">
           <a class="card-link" href="{{ url_for('views.my_projects') }}">
-            <img src="{{ url_for('static', filename='/images/test_card_img.jpg') }}" class="card-img-top" alt="...">
+            <img class="dashboard-image" src="{{ url_for('static', filename='/images/my_projects_card.png') }}" class="card-img-top" alt="...">
             <div class="card-body">
               <p class="card-text">My Projects</p>
             </div>
           </a>
         </div>
       </div>
+
       <div class="col-12 col-md-6">
         <div class="card dashboard-tile">
-          <a class="card-link" href="#">
-            <img src="{{ url_for('static', filename='/images/test_card_img.jpg') }}" class="card-img-top" alt="...">
+          <a class="card-link" href="{{ url_for('views.my_tickets') }}">
+            <img class="dashboard-image" src="{{ url_for('static', filename='/images/test_card_img.jpg') }}" class="card-img-top" alt="...">
             <div class="card-body">
               <p class="card-text">All Tickets</p>
             </div>
           </a>
         </div>
       </div>
+
       <div class="col-12 col-md-6">
         <div class="card dashboard-tile">
           <a class="card-link" href="#">
-            <img src="{{ url_for('static', filename='/images/test_card_img.jpg') }}" class="card-img-top" alt="...">
+            <img class="dashboard-image" src="{{ url_for('static', filename='/images/test_card_img.jpg') }}" class="card-img-top" alt="...">
             <div class="card-body">
               <p class="card-text">Metrics</p>
             </div>
@@ -47,4 +52,37 @@
       </div>
     </div>
   </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+    const ctx = document.getElementById('priority-chart');
+    const priorityChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Low', 'Medium', 'High', 'Urgent'],
+            datasets: [{
+                label: 'Tickets By Priority',
+                data: [{{ priority_data[0] }}, {{ priority_data[1] }}, {{ priority_data[2] }}, {{ priority_data[3] }}],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+          maintainAspectRatio: false,
+        }
+    });
+  </script>
 {% endblock %}
