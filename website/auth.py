@@ -69,7 +69,7 @@ def sign_up():
 @auth.route('/demo')
 def demo():
     # Login as demo user if selected from login/sign-up page.
-    demo_user = User.query.filter_by(email="test@email.com").first()
+    demo_user = User.query.filter_by(email="demo@email.com").first()
     login_user(demo_user, remember=True)
     flash(f"Successfully logged in as {demo_user.email}", category="success")
     return redirect(url_for("views.dashboard"))
