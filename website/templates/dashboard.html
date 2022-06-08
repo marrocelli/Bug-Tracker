@@ -32,7 +32,7 @@
       <div class="col-12 col-md-6">
         <div class="card dashboard-tile">
           <a class="card-link" href="{{ url_for('views.my_tickets') }}">
-            <img class="dashboard-image" src="{{ url_for('static', filename='/images/test_card_img.jpg') }}" class="card-img-top" alt="...">
+            <img class="dashboard-image" src="{{ url_for('static', filename='/images/tickets.jpg') }}" class="card-img-top" alt="...">
             <div class="card-body">
               <p class="card-text">All Tickets</p>
             </div>
@@ -56,6 +56,8 @@
 
 {% block scripts %}
   {{ super() }}
+
+  <!-- Chart.JS scripts for priority-chart -->
   <script>
     const ctx = document.getElementById('priority-chart');
     const priorityChart = new Chart(ctx, {

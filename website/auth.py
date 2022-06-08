@@ -8,6 +8,7 @@ from website.forms import SignUpForm, LoginForm
 auth = Blueprint("auth", __name__)
 
 
+@auth.route('/', methods=["GET", "POST"])
 @auth.route('/login', methods=["GET", "POST"])
 def login():
     form = LoginForm()
@@ -34,7 +35,6 @@ def logout():
     return redirect(url_for("auth.login"))
 
 
-@auth.route('/', methods=["GET", "POST"])
 @auth.route('/sign-up', methods=["GET", "POST"])
 def sign_up():
     form = SignUpForm()

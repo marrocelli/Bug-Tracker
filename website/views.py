@@ -1,15 +1,10 @@
 import flask_login
-import matplotlib.pyplot
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from flask_login import login_required, current_user
 from website.forms import CreateNewProjectForm, init_CreateNewTicketForm, EditProfileForm, NewCommentForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from .models import User, Organization, Project, Ticket, Comment, TicketEdit
-from matplotlib.figure import Figure
-import numpy as np
-import base64
-from io import BytesIO
 
 
 views = Blueprint("views", __name__)
@@ -36,11 +31,6 @@ def dashboard():
                 high.append(ticket)
             elif ticket.priority == "Urgent":
                 urgent.append(ticket)
-
-    # low = len(Ticket.query.filter_by(priority="Low").all())
-    # medium = len(Ticket.query.filter_by(priority="Medium").all())
-    # high = len(Ticket.query.filter_by(priority="High").all())
-    # urgent = len(Ticket.query.filter_by(priority="Urgent").all())
     priority_data = [len(low), len(medium), len(high), len(urgent)]
 
     return render_template("dashboard.html", priority_data=priority_data)
@@ -49,7 +39,6 @@ def dashboard():
 # Create routes
 @views.route('/my-projects/create-project', methods=["GET", "POST"])
 @login_required
-# Only admin should have access to this.
 def create_project():
 
     form = CreateNewProjectForm()
@@ -163,7 +152,6 @@ def my_tickets():
             for ticket in project.tickets:
                 tickets.append(ticket)
 
-    ####################################################################################################################
     if request.method == "POST":
         ticket_id = request.form["ticket_id"]
         action = request.form["action"]
@@ -177,7 +165,6 @@ def my_tickets():
             return redirect(url_for("views.my_tickets", organization=organization, tickets=tickets))
         elif action == "details":
             return redirect(url_for("views.ticket_details", project_id=ticket_to_edit.project.id, ticket_id=ticket_id))
-    ####################################################################################################################
 
     return render_template("my_tickets.html", organization=organization, tickets=tickets)
 
@@ -337,6 +324,5 @@ def edit_project_members(project_id):
             project.team.remove(user_to_edit)
             db.session.commit()
             flash(f"{user_to_edit.first_name} {user_to_edit.last_name} removed from {project.name}.", category="success")
-
 
     return render_template("edit_project_members.html", organization=organization, project=project)

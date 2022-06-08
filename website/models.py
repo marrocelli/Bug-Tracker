@@ -46,10 +46,6 @@ class Project(db.Model):
     def __repr__(self):
         return f"<Project: {self.name}>"
 
-    #    issues should be removed when resolved but still kept in archives some how.
-    # have an archives property? (can aggregate from all projects and display??) (or have archive object?)
-    # Owner/PM of project --> I'm thinking this person will have all admin privileges for this project.
-
 
 class Ticket(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -66,8 +62,6 @@ class Ticket(db.Model):
     history = db.relationship('TicketEdit', backref='ticket')
     # have access to developer attribute from user.assigned_tickets backref
     # have access to the project attribute from project.tickets backref
-
-    # attachments
 
 
 class Comment(db.Model):
@@ -87,17 +81,5 @@ class TicketEdit(db.Model):
     new_value = db.Column(db.String())
     date_changed = db.Column(db.DateTime(timezone=True), default=func.now())
 
-
-
-    # attachments
-    # tags
-    # date bug was started
-    # date bug was fixed
-    # due date should only be able to be changed by issue owner/admin
-    # check for duplicates during creation
-    # custom fields?
-    # have drop down menus for common stuff
-    # should have status (Resolved, in-progress, open, closed)
-    # should have an archive of all previously solved bugs.
 
 

@@ -6,8 +6,7 @@ from flask_login import LoginManager
 
 db = SQLAlchemy()
 DB_NAME = "bug_tracker.db"
-# FLASK_SECRET_KEY = os.environ["FLASK_SECRET_KEY"]
-FLASK_SECRET_KEY = "secretstuff"
+FLASK_SECRET_KEY = os.environ["FLASK_SECRET_KEY"]
 
 
 def create_app():
@@ -41,8 +40,3 @@ def create_database(app):
     if not os.path.exists("website/" + DB_NAME):
         db.create_all(app=app)
         print("Database created!")
-
-
-
-# db.session.rollback() for demo user database changes
-# db.session.close()
